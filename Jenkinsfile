@@ -53,5 +53,25 @@ stages {
       }
     }
   }
+  stage('Exec Maven'){
+    steps{
+      rtMavenRun{
+        tool:'maven3.6.0',
+          pom:'pom.xml',
+          goals:'clean install',
+          deployerId:"MAVEN_DEVELOPER",
+          resolverId:"MAVEN_RESOLVER"
+      }
+    }
+  }
+  stage('publish biuld info'){
+    steps{
+      rtpublishBuildInfo{
+        serverId:"ARTIFACTORY_SERVER
+      }
+    }
+  }
+  }
+  
   }
 }
