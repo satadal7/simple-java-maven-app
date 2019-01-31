@@ -61,7 +61,7 @@ stages {
   stage('publish biuld info'){
     steps{
       rtpublishBuildInfo{
-        serverId:"ARTIFACTORY_SERVER
+        serverId:"ARTIFACTORY_SERVER"
       }
     }
     stage('Deploy'){
