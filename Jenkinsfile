@@ -24,8 +24,8 @@ stages {
   stage('Deploy'){
     steps{
       sh 'java -jar target/my-app-1.0-SNAPSHOT.jar'
-      scp -o StrictHostKeyChecking=no -i /tmp/my.pem target/my-app-1.0-SNAPSHOT.jar centos@54.149.242.5:/tmp/
-      ssh -i /tmp/MARS_POC.pem centos@54.149.242.5 java -jar /tmp/my-app-1.0-SNAPSHOT.jar
+      scp -o StrictHostKeyChecking=no -i /tmp/MARS_POC.pem target/my-app-1.0-SNAPSHOT.jar centos@34.221.84.5:/tmp/
+      ssh -i /tmp/MARS_POC.pem centos@34.221.84.5 java -jar /tmp/my-app-1.0-SNAPSHOT.jar
     }
   }
   }
