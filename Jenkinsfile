@@ -22,48 +22,55 @@ stages {
     }
   }
   
-  stage('clone'){
-        git branch:'master',url:"https://github.com/satadal7/simple-java-maven-app.git"
+  stage ('Clone') {
+            steps {
+                git branch: 'master', url: "https://github.com/jfrog/project-examples.git"
+            }
         }
-  stage('Artifactory configuration') {
-    steps{
-      rtServer{
-        id: 'ARTIFACTORY_SERVER',
-        url: 'http://34.216.127.228:8081/artifactory',
-        credentialsId: 'artifactoryCre'
-       }
-      
-      rtMavenDeployer{
-        id:"MAVEN_DEVELOPER",
-        serverId:"ARTIFACTORY_SERVER",
-        reseaseId:"libs-release-local",
-        snapshotRepo:"libs-snapshot-local"
-      }
-        rtMavenResolver{
-        id:"MAVEN_RESOLVER",
-        serverId:"ARTIFACTORY_SERVER",
-        reseaseId:"libs-release",
-        snapshotRepo:"libs-snapshot"
-      }
-    }
-  }
-  stage('Exec Maven'){
-    steps{
-      rtMavenRun{
-        tool:'maven3.6.0',
-          pom:'pom.xml',
-          goals:'clean install',
-          deployerId:"MAVEN_DEVELOPER",
-          resolverId:"MAVEN_RESOLVER"
-      }
-    }
-  }
-  stage('publish biuld info'){
-    steps{
-      rtpublishBuildInfo{
-        serverId:"ARTIFACTORY_SERVER"
-      }
-    }
+
+        stage ('Artifactory configuration') {
+            steps {
+                rtServer (
+                    id: "ARTIFACTORY_SERVER",
+                    url: 'http://34.216.127.228:8081/artifactory',
+                    credentialsId: 'artifactoryCre'
+                )
+
+                rtMavenDeployer (
+                    id: "MAVEN_DEPLOYER",
+                    serverId: "ARTIFACTORY_SERVER",
+                    releaseRepo: "libs-release-local",
+                    snapshotRepo: "libs-snapshot-local"
+                )
+
+                rtMavenResolver (
+                    id: "MAVEN_RESOLVER",
+                    serverId: "ARTIFACTORY_SERVER",
+                    releaseRepo: "libs-release",
+                    snapshotRepo: "libs-snapshot"
+                )
+            }
+        }
+
+        stage ('Exec Maven') {
+            steps {
+                rtMavenRun (
+                    tool: 'maven3.6.0', // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: "MAVEN_DEPLOYER",
+                    resolverId: "MAVEN_RESOLVER"
+                )
+            }
+        }
+
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "ARTIFACTORY_SERVER"
+                )
+            }
+        }
     stage('Deploy'){
     steps{
      // sh 'java -jar target/my-app-1.0-SNAPSHOT.jar'
