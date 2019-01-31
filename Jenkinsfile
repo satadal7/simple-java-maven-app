@@ -21,13 +21,7 @@ stages {
       }
     }
   }
-  stage('Deploy'){
-    steps{
-     // sh 'java -jar target/my-app-1.0-SNAPSHOT.jar'
-     sh 'scp -o StrictHostKeyChecking=no -i /tmp/MARS_POC.pem target/my-app-1.0-SNAPSHOT.jar centos@34.221.84.5:/tmp/'
-     sh 'ssh -i /tmp/MARS_POC.pem centos@34.221.84.5 java -jar /tmp/my-app-1.0-SNAPSHOT.jar'
-    }
-  }
+  
   stage('clone'){
         git branch:'master',url:"https://github.com/satadal7/simple-java-maven-app.git"
         }
@@ -70,6 +64,13 @@ stages {
         serverId:"ARTIFACTORY_SERVER
       }
     }
+    stage('Deploy'){
+    steps{
+     // sh 'java -jar target/my-app-1.0-SNAPSHOT.jar'
+     sh 'scp -o StrictHostKeyChecking=no -i /tmp/MARS_POC.pem target/my-app-1.0-SNAPSHOT.jar centos@34.221.84.5:/tmp/'
+     sh 'ssh -i /tmp/MARS_POC.pem centos@34.221.84.5 java -jar /tmp/my-app-1.0-SNAPSHOT.jar'
+    }
+  }
   }
   }
   
