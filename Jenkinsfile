@@ -11,5 +11,20 @@ stages {
     sh "mvn -B -DskipTests clean package"
     }
   }
+  stage('Test'){
+    step {
+      sh "mvn test"
+    }
+    post {
+      always{
+        junit 'target/surefire-reports/*.xml'
+      }
+    }
+  }
+  stage('Deploy'){
+    steps{
+      sh 'java -jar target/sample-app-1.0-SNAPSHOT.jar'
+    }
+  }
   }
 }
