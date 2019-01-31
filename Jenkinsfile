@@ -27,7 +27,7 @@ stages {
         }
   stage('Artifactory configuration') {
     steps{
-      rtServer {
+      rtServer{
         id:"ARTIFACTORY_SERVER",
         url:'http://34.216.127.228:8081/artifactory',
         credentialId: artifactoryCre
