@@ -24,7 +24,7 @@ stages {
   
   stage ('Clone') {
             steps {
-                git branch: 'master', url: "https://github.com/jfrog/project-examples.git"
+                git branch: 'master', url: "https://github.com/satadal7/simple-java-maven-app.git"
             }
         }
 
