@@ -28,7 +28,7 @@ stages {
      sh 'ssh -i /tmp/MARS_POC.pem centos@34.221.84.5 java -jar /tmp/my-app-1.0-SNAPSHOT.jar'
     }
   }
-  stage('clone){
+  stage('clone'){
         git branch:'master',url:"https://github.com/satadal7/simple-java-maven-app.git"
         }
   stage('Artifactory configuration') {
