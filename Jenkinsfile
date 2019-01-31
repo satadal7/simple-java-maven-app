@@ -28,5 +28,30 @@ stages {
      sh 'ssh -i /tmp/MARS_POC.pem centos@34.221.84.5 java -jar /tmp/my-app-1.0-SNAPSHOT.jar'
     }
   }
+  stage('clone){
+        git branch:'master',url:"https://github.com/satadal7/simple-java-maven-app.git"
+        }
+  stage('Artifactory configuration') {
+    steps{
+      rtServer {
+        id:"ARTIFACTORY_SERVER",
+        url:'http://34.216.127.228:8081/artifactory',
+        credentialId: artifactoryCre
+       }
+      
+      rtMavenDeployer{
+        id:"MAVEN_DEVELOPER",
+        serverId:"ARTIFACTORY_SERVER",
+        reseaseId:"libs-release-local",
+        snapshotRepo:"libs-snapshot-local"
+      }
+        rtMavenResolver{
+        id:"MAVEN_RESOLVER",
+        serverId:"ARTIFACTORY_SERVER",
+        reseaseId:"libs-release",
+        snapshotRepo:"libs-snapshot"
+      }
+    }
+  }
   }
 }
