@@ -12,7 +12,7 @@ stages {
     }
   }
   stage('Test'){
-    step {
+    steps {
       sh "mvn test"
     }
     post {
